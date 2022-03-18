@@ -1,4 +1,5 @@
 #!/bin/bash
+# scripts to generate ema compatible reads from haplotagging data
 read1=$1
 read2=${read1/_R1/_R2}
 echo "Adding 16 base barcode to $read1..."
@@ -18,4 +19,4 @@ paste <(pigz -c -d ${read1/.fastq/.16BCgen.fastq} | paste - - - - | awk '{print 
 
 #Then generate the command for ema align
 echo "Then run:
-parallel --bar -j10 \"ema align -t 4 -d -r /fml/chones/data/Marek/Run177_L3-BloomS_GM_19-plex_HAPLOv3/GRCh38_ref-genome/GRCh38_full_analysis_set_plus_decoy_hla.fa -p 10x -s {} | samtools sort -@ 4 -O bam -l 0 -m 4G -o {}.bam -\" ::: ${stem}_outdir/ema-bin-???"
+parallel --bar -j10 \"ema align -t 4 -d -r your_ref_assembly -p 10x -s {} | samtools sort -@ 4 -O bam -l 0 -m 4G -o {}.bam -\" ::: ${stem}_outdir/ema-bin-???"
